@@ -18,7 +18,31 @@ A narration script (plain text) + video configuration:
 - If a sentence is long (>12 words), it gets its own slide
 - If two short sentences total <10 words, combine them into one slide
 
-### Image Prompts
+### Image Prompts — CRITICAL RULE
+
+**The image MUST visually depict exactly what the narration is saying.**
+
+This is the #1 rule. If the narration says "The Federal Reserve printed $120 billion," the image must show something directly related to money printing or the Federal Reserve — NOT a generic stock photo of a city skyline.
+
+**Process for each slide:**
+1. Read the narration text
+2. Identify the KEY VISUAL SUBJECT — what is being talked about?
+3. Build the image prompt around THAT specific subject
+4. The viewer should be able to look at the image and guess what the narration says
+
+**Bad example:**
+- Narration: "Gold prices hit an all-time high of $3,200 per ounce."
+- Bad prompt: "A wide 16:9 photograph of a beautiful sunset over mountains." (WRONG — has nothing to do with gold)
+- Good prompt: "A wide 16:9 photorealistic cinematic photograph. Extreme close-up of gleaming gold bars stacked in a vault, warm golden light reflecting off polished surfaces. A digital price display showing rising numbers glows green in the background. Rich, luxurious atmosphere with shallow depth of field."
+
+**Good examples of narration→image matching:**
+- "Inflation is at 3.3%" → Show grocery prices, rising charts, expensive receipts
+- "The housing market is struggling" → Show empty houses, for-sale signs, suburban streets
+- "Oil prices are surging" → Show oil rigs, gas station prices, tanker ships
+- "The stock market dropped 500 points" → Show red trading screens, Wall Street, worried traders
+- "Your savings are losing value" → Show melting money, shrinking piggy bank, fading dollar bills
+
+### Image Prompt Structure
 
 **For "text-heavy" style:**
 - Start every prompt with: `"A wide 16:9 bold modern flat illustration."`
@@ -31,11 +55,11 @@ A narration script (plain text) + video configuration:
 
 **For all other styles (no text in image):**
 - Start every prompt with the style prefix from config
-- Describe a vivid, cinematic scene that illustrates the narration
+- Describe a vivid, cinematic scene that DIRECTLY illustrates what the narration says
 - NO text, NO words, NO labels in the image
-- Focus on emotion, atmosphere, and visual storytelling
+- Be SPECIFIC — name the exact objects, settings, and subjects from the narration
+- Include camera angle, lighting, mood, and composition details
 - Maintain visual continuity (consistent color palette, recurring motifs)
-- Each image should stand alone as a compelling visual
 
 ### Thumbnail Prompt
 - Generate ONE attention-grabbing thumbnail prompt
@@ -69,15 +93,9 @@ Write the output as `slides.json` in the run directory. Exact structure:
   "slides": [
     {
       "slide_number": 1,
-      "narration": "The exact voiceover text for this slide.",
-      "image_prompt": "A wide 16:9 photorealistic cinematic photograph. A vast server room...",
+      "narration": "Gold prices hit an all-time high of $3,200 per ounce.",
+      "image_prompt": "A wide 16:9 photorealistic cinematic photograph. Extreme close-up of gleaming gold bars stacked in a vault, warm golden light reflecting off polished surfaces. A digital price display showing rising numbers glows green in the background. Rich, luxurious atmosphere with shallow depth of field.",
       "duration": 4
-    },
-    {
-      "slide_number": 2,
-      "narration": "Next sentence of voiceover.",
-      "image_prompt": "A wide 16:9 photorealistic cinematic photograph. Close-up of...",
-      "duration": 3
     }
   ]
 }
@@ -90,6 +108,7 @@ For each slide: `duration = max(3, min(10, round(word_count / 2.5)))`
 1. All narration segments concatenated = original script (no words added or lost)
 2. Every slide has 3-10 second duration
 3. Image prompts are 3-6 sentences each (detailed enough for good generation)
-4. Thumbnail prompt includes title text
-5. design_system is included (even for non-text styles, for visual consistency)
-6. No slide has more than ~25 words of narration (split if longer)
+4. **EVERY image prompt directly depicts what the narration says** — go slide by slide and verify
+5. Thumbnail prompt includes title text
+6. design_system is included (even for non-text styles, for visual consistency)
+7. No slide has more than ~25 words of narration (split if longer)

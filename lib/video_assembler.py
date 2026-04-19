@@ -21,16 +21,27 @@ def get_audio_duration(audio_path: str) -> float:
 
 
 def create_slide_clip(image_path: str, audio_path: str, output_path: str) -> str:
-    """Create a single clip from an image + audio, duration matches audio length."""
+    """Create a single clip from an image + audio with Ken Burns slow zoom effect."""
+    audio_dur = get_audio_duration(audio_path)
+    total_frames = int(audio_dur * FPS)
+
+    # Ken Burns: slow zoom from 1.0x to 1.12x, centered
+    # zoompan needs a larger input so we scale up first, then zoompan crops
+    zoom_speed = 0.12 / total_frames if total_frames > 0 else 0.0005
+    vf = (
+        f"scale=8000:-1,"
+        f"zoompan=z='1+{zoom_speed:.8f}*in':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)'"
+        f":d={total_frames}:s={VIDEO_WIDTH}x{VIDEO_HEIGHT}:fps={FPS}"
+    )
+
     cmd = [
         "ffmpeg", "-y",
-        "-loop", "1", "-i", image_path,
+        "-i", image_path,
         "-i", audio_path,
-        "-c:v", "libx264", "-tune", "stillimage",
+        "-vf", vf,
+        "-c:v", "libx264", "-preset", "fast",
         "-c:a", "aac", "-b:a", "192k",
-        "-vf", f"scale={VIDEO_WIDTH}:{VIDEO_HEIGHT}:force_original_aspect_ratio=decrease,pad={VIDEO_WIDTH}:{VIDEO_HEIGHT}:(ow-iw)/2:(oh-ih)/2:black",
         "-pix_fmt", "yuv420p",
-        "-r", str(FPS),
         "-shortest",
         output_path,
     ]
