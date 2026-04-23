@@ -41,12 +41,17 @@ def submit_image_job(prompt: str, width: int = IMAGE_GEN_WIDTH, height: int = IM
                 json={"prompt": prompt, "width": width, "height": height},
                 timeout=30,
             )
+            if resp.status_code == 429:
+                wait = int(resp.headers.get("Retry-After", 10))
+                print(f"    Rate limited (429). Waiting {wait}s...")
+                time.sleep(wait)
+                continue
             resp.raise_for_status()
             data = resp.json()
             return data["job_id"]
         except (requests.exceptions.HTTPError, requests.exceptions.ConnectionError) as e:
             if attempt < 4:
-                wait = 5 * (attempt + 1)
+                wait = 10 * (attempt + 1)
                 print(f"    Retry {attempt+1}/4 after error: {e} (waiting {wait}s)")
                 time.sleep(wait)
             else:
@@ -61,6 +66,10 @@ def poll_image_job(job_id: str) -> str:
             headers=_image_headers(),
             timeout=30,
         )
+        if resp.status_code == 429:
+            print(f"    Polling rate limited (429). Waiting 30s...")
+            time.sleep(30)
+            continue
         resp.raise_for_status()
         data = resp.json()
         if data.get("status") == "completed":
@@ -82,30 +91,36 @@ def generate_image(prompt: str, output_path: str, width: int = IMAGE_GEN_WIDTH, 
 
 
 def generate_images_batch(prompts: list[dict], output_dir: str) -> list[str]:
-    """Submit all image jobs first, then poll. Each dict: {prompt, filename, width?, height?}. Skips existing files."""
-    jobs = []
-    skipped = []
+    """Submit, poll and save images one by one to ensure progress is saved even if later items fail."""
+    Path(output_dir).mkdir(parents=True, exist_ok=True)
+    results = []
+    
     for item in prompts:
         out_path = str(Path(output_dir) / item["filename"])
         if Path(out_path).exists() and Path(out_path).stat().st_size > 0:
             print(f"  Skipping {item['filename']} (already exists)")
-            skipped.append(out_path)
+            results.append(out_path)
             continue
-        job_id = submit_image_job(
-            item["prompt"],
-            item.get("width", IMAGE_GEN_WIDTH),
-            item.get("height", IMAGE_GEN_HEIGHT),
-        )
-        jobs.append({"job_id": job_id, "filename": item["filename"]})
-        print(f"  Submitted image job {job_id} for {item['filename']}")
-
-    results = list(skipped)
-    for job in jobs:
-        b64_data = poll_image_job(job["job_id"])
-        out_path = str(Path(output_dir) / job["filename"])
-        Path(out_path).write_bytes(base64.b64decode(b64_data))
-        print(f"  Saved: {out_path}")
-        results.append(out_path)
+            
+        print(f"  Processing {item['filename']}...")
+        try:
+            job_id = submit_image_job(
+                item["prompt"],
+                item.get("width", IMAGE_GEN_WIDTH),
+                item.get("height", IMAGE_GEN_HEIGHT),
+            )
+            print(f"    Job submitted: {job_id}")
+            
+            b64_data = poll_image_job(job_id)
+            Path(out_path).write_bytes(base64.b64decode(b64_data))
+            print(f"    Saved: {out_path}")
+            results.append(out_path)
+            
+            time.sleep(1) # Small delay between items
+        except Exception as e:
+            print(f"  [ERROR] Failed to process {item['filename']}: {e}")
+            # We don't append to results, but we continue to the next one
+            continue
 
     return results
 
@@ -119,12 +134,17 @@ def submit_tts_job(text: str, voice: str) -> str:
                 json={"text": text, "voice": voice},
                 timeout=30,
             )
+            if resp.status_code == 429:
+                wait = int(resp.headers.get("Retry-After", 10))
+                print(f"    Rate limited (429). Waiting {wait}s...")
+                time.sleep(wait)
+                continue
             resp.raise_for_status()
             data = resp.json()
             return data["job_id"]
         except (requests.exceptions.HTTPError, requests.exceptions.ConnectionError) as e:
             if attempt < 4:
-                wait = 5 * (attempt + 1)
+                wait = 10 * (attempt + 1)
                 print(f"    Retry {attempt+1}/4 after error: {e} (waiting {wait}s)")
                 time.sleep(wait)
             else:
@@ -139,6 +159,10 @@ def poll_tts_job(job_id: str) -> str:
             headers=_tts_headers(),
             timeout=30,
         )
+        if resp.status_code == 429:
+            print(f"    Polling rate limited (429). Waiting 30s...")
+            time.sleep(30)
+            continue
         resp.raise_for_status()
         data = resp.json()
         if data.get("status") == "completed":
@@ -160,20 +184,31 @@ def generate_tts(text: str, voice: str, output_path: str) -> str:
 
 
 def generate_tts_batch(items: list[dict], output_dir: str, voice: str) -> list[str]:
-    """Submit all TTS jobs first, then poll. Each dict: {text, filename}"""
-    jobs = []
-    for item in items:
-        job_id = submit_tts_job(item["text"], voice)
-        jobs.append({"job_id": job_id, "filename": item["filename"]})
-        print(f"  Submitted TTS job {job_id} for {item['filename']}")
-
+    """Submit, poll and save TTS audio one by one to ensure progress is saved even if later items fail."""
+    Path(output_dir).mkdir(parents=True, exist_ok=True)
     results = []
-    for job in jobs:
-        b64_data = poll_tts_job(job["job_id"])
-        out_path = str(Path(output_dir) / job["filename"])
-        Path(out_path).write_bytes(base64.b64decode(b64_data))
-        print(f"  Saved: {out_path}")
-        results.append(out_path)
+    
+    for item in items:
+        out_path = str(Path(output_dir) / item["filename"])
+        if Path(out_path).exists() and Path(out_path).stat().st_size > 0:
+            print(f"  Skipping {item['filename']} (already exists)")
+            results.append(out_path)
+            continue
+            
+        print(f"  Processing {item['filename']}...")
+        try:
+            job_id = submit_tts_job(item["text"], voice)
+            print(f"    Job submitted: {job_id}")
+            
+            b64_data = poll_tts_job(job_id)
+            Path(out_path).write_bytes(base64.b64decode(b64_data))
+            print(f"    Saved: {out_path}")
+            results.append(out_path)
+            
+            time.sleep(0.5) # Small delay between items
+        except Exception as e:
+            print(f"  [ERROR] Failed to process {item['filename']}: {e}")
+            continue
 
     return results
 

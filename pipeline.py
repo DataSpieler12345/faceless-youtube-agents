@@ -49,29 +49,29 @@ def check_dependencies():
     all_ok = True
     for name, path in deps.items():
         if path:
-            print(f"  ✓ {name}: {path}")
+            print(f"  [OK] {name}: {path}")
         else:
-            print(f"  ✗ {name}: NOT FOUND")
+            print(f"  [FAIL] {name}: NOT FOUND")
             all_ok = False
 
     from lib.config import GATHOS_IMAGE_API_KEY, GATHOS_TTS_API_KEY, ZERNIO_API_KEY
 
     if GATHOS_IMAGE_API_KEY:
-        print(f"  ✓ GATHOS_IMAGE_API_KEY: set")
+        print(f"  [OK] GATHOS_IMAGE_API_KEY: set")
     else:
-        print(f"  ✗ GATHOS_IMAGE_API_KEY: not set")
+        print(f"  [FAIL] GATHOS_IMAGE_API_KEY: not set")
         all_ok = False
 
     if GATHOS_TTS_API_KEY:
-        print(f"  ✓ GATHOS_TTS_API_KEY: set")
+        print(f"  [OK] GATHOS_TTS_API_KEY: set")
     else:
-        print(f"  ✗ GATHOS_TTS_API_KEY: not set")
+        print(f"  [FAIL] GATHOS_TTS_API_KEY: not set")
         all_ok = False
 
     if ZERNIO_API_KEY:
         print(f"  ✓ ZERNIO_API_KEY: set")
     else:
-        print(f"  ⚠ ZERNIO_API_KEY: not set (needed for YouTube upload)")
+        print(f"  [WARN] ZERNIO_API_KEY: not set (needed for YouTube upload)")
 
     return all_ok
 

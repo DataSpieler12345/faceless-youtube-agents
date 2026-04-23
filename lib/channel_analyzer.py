@@ -94,7 +94,7 @@ def get_channel_transcripts(channel_url: str, max_videos: int = YT_DLP_MAX_VIDEO
 
     transcripts = {}
     for i, video in enumerate(videos):
-        print(f"  Transcribing [{i+1}/{len(videos)}]: {video['title']}")
+        print(f"  Transcribing [{i+1}/{len(videos)}]: {video['title'].encode('ascii', 'ignore').decode()}")
         transcript = get_transcript(video["url"])
         if transcript:
             transcripts[video["id"]] = {
