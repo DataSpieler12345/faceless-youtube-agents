@@ -44,6 +44,12 @@ This is the #1 rule. If the narration says "The Federal Reserve printed $120 bil
 
 ### Image Prompt Structure
 
+**For "presentation" style (RECOMMENDED for text-heavy videos):**
+- **STOP** — read `skills/presentation-slides.md` and follow its two-stage pipeline instead of the rules below
+- Stage 1: Create a locked design system (5 colors, 3 motifs, typography, mood)
+- Stage 2: Generate rich 4-8 sentence prompts with structured `on_screen_text` dicts
+- This produces dramatically better results than the basic text-heavy approach
+
 **For "text-heavy" style:**
 - Start every prompt with: `"A wide 16:9 bold modern flat illustration."`
 - Include a 5-color design system (pick once, use for all slides):
@@ -53,7 +59,29 @@ This is the #1 rule. If the narration says "The Federal Reserve printed $120 bil
 - Include visual elements that support the text
 - Add continuity references between slides
 
-**For all other styles (no text in image):**
+**For "dark-tech" style:**
+- Start every prompt with: `"A wide 16:9 dark premium tech illustration."`
+- Near-black background (`#0A0A0A` to `#1A1A2E`) with subtle glow effects
+- One or two neon accent colors for highlights
+- Clean sans-serif typography with wide letter-spacing
+- Bake text into images (headlines, stats, callouts)
+- Lots of negative space, minimal elements
+
+**For "infographic" style:**
+- Start every prompt with: `"A wide 16:9 clean modern infographic illustration."`
+- Charts, graphs, data visualizations as main visual elements
+- Large stat numbers displayed prominently
+- Comparison layouts, ranked lists, timelines
+- Bake text into images (labels, values, data points)
+
+**For "whiteboard" style:**
+- Start every prompt with: `"A wide 16:9 whiteboard explainer illustration."`
+- White background with hand-drawn marker-style diagrams
+- Arrows showing flow/process, handwritten annotations
+- Simple palette: black lines + 2-3 marker colors
+- Bake text into images (labels, annotations)
+
+**For visual-only styles (documentary, 3d-render, sketch, anime, comic, stock):**
 - Start every prompt with the style prefix from config
 - Describe a vivid, cinematic scene that DIRECTLY illustrates what the narration says
 - NO text, NO words, NO labels in the image

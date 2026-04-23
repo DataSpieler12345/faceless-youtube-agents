@@ -52,6 +52,11 @@ IMAGE_STYLES = {
         "description": "Bold text baked into images with design system colors",
         "prompt_prefix": "A wide 16:9 bold modern flat illustration with text overlay.",
     },
+    "presentation": {
+        "description": "Structured presentation slides with headlines, bullets, stats, diagrams — uses two-stage design system engine",
+        "prompt_prefix": "A wide 16:9 bold modern presentation slide.",
+        "skill": "presentation-slides.md",
+    },
     "documentary": {
         "description": "Clean photorealistic cinematic shots, no text",
         "prompt_prefix": "A wide 16:9 photorealistic cinematic photograph.",
@@ -67,6 +72,26 @@ IMAGE_STYLES = {
     "anime": {
         "description": "Anime/manga art style, no text",
         "prompt_prefix": "A wide 16:9 high-quality anime illustration.",
+    },
+    "infographic": {
+        "description": "Data visualization with charts, statistics, comparisons, timelines — no text in prompt, agent adds data viz elements",
+        "prompt_prefix": "A wide 16:9 clean modern infographic illustration with data visualization.",
+    },
+    "dark-tech": {
+        "description": "Dark background with neon accents, clean typography — tech/productivity YouTube aesthetic",
+        "prompt_prefix": "A wide 16:9 dark premium tech illustration. Near-black background with subtle glow effects and neon accent lighting.",
+    },
+    "whiteboard": {
+        "description": "Hand-drawn whiteboard explainer style on white background — how-things-work channels",
+        "prompt_prefix": "A wide 16:9 whiteboard explainer illustration. Clean white background with hand-drawn marker-style diagrams and annotations.",
+    },
+    "comic": {
+        "description": "Comic book panel style with bold outlines and dramatic scenes — storytelling and drama channels",
+        "prompt_prefix": "A wide 16:9 vivid comic book illustration with bold ink outlines and dramatic halftone shading.",
+    },
+    "stock": {
+        "description": "Clean professional stock photography with subtle text overlays — business and corporate channels",
+        "prompt_prefix": "A wide 16:9 high-quality professional stock photograph with clean composition and natural lighting.",
     },
 }
 DEFAULT_STYLE = "documentary"

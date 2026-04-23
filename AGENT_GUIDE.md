@@ -56,7 +56,7 @@ PYTHONPATH=. python3 pipeline.py --check
 1. **YouTube channel URL** — the channel to clone the style from
 2. **Topics** — a list of topics to create videos about (the agent picks one per iteration)
 3. **Voice** — a preset (josh, koko, pixxy, prof, rochie, spraky) or a custom cloned voice name from Gathos (stays the same for all videos)
-4. **Image style** — one of: text-heavy, documentary, 3d-render, sketch, anime
+4. **Image style** — one of: presentation, text-heavy, dark-tech, infographic, whiteboard, documentary, 3d-render, sketch, anime, comic, stock
 5. **Video duration** — target length in seconds (e.g., 60, 120, 180). Used to calculate word count:
    - 60s = ~150 words
    - 120s = ~300 words
@@ -263,21 +263,99 @@ state/<run_id>.json      # Stage progress, asset paths, status
 
 ## Image Styles Reference
 
-| Style | Description | Text in image? | Prompt approach |
-|-------|-------------|----------------|-----------------|
-| `text-heavy` | Bold design system, text baked into images | Yes | Like idea-to-presentation: 5 hex colors, text placement, typography |
-| `documentary` | Photorealistic cinematic shots | No | Clean, atmospheric, cinematic photography |
-| `3d-render` | Stylized 3D renders with volumetric lighting | No | 3D scenes with dramatic lighting |
-| `sketch` | Hand-drawn illustration style | No | Detailed pencil/ink drawings |
-| `anime` | Anime/manga art style | No | High-quality anime illustrations |
+### Text + Visual Styles (text baked into images)
 
-### Text-Heavy Mode Details
-When the user picks `text-heavy`, the agent must:
+| Style | Description | Best for |
+|-------|-------------|----------|
+| `presentation` | **Structured slides with headlines, bullets, stats, diagrams. Uses two-stage design system engine.** Read `skills/presentation-slides.md` for the full prompting approach. | Educational, how-to, listicles, tech explainers — **recommended for most faceless channels** |
+| `text-heavy` | Bold flat design with text overlay and 5-color design system | Quick text-on-image videos, simple overlays |
+| `dark-tech` | Dark background with neon accents, clean typography | Tech reviews, productivity, AI, programming |
+| `infographic` | Data visualization with charts, statistics, comparisons, timelines | Finance, science, data-driven explainers |
+| `whiteboard` | Hand-drawn marker-style on white background | How-things-work, education, process explainers |
+
+### Visual-Only Styles (no text in images — narration carries the content)
+
+| Style | Description | Best for |
+|-------|-------------|----------|
+| `documentary` | Photorealistic cinematic photography | News, finance, history, current events |
+| `3d-render` | Stylized 3D with volumetric lighting | Tech, futuristic, science, gaming |
+| `sketch` | Hand-drawn pencil/ink illustration | Storytelling, history, biographies |
+| `anime` | Anime/manga art style | Entertainment, pop culture, gaming |
+| `comic` | Comic book panels with bold outlines and halftone shading | Drama, storytelling, "what if" scenarios |
+| `stock` | Clean professional stock photography | Business, corporate, career, self-improvement |
+
+### Presentation Mode (RECOMMENDED)
+
+When the user picks `presentation`, the agent MUST read `skills/presentation-slides.md` and follow its two-stage pipeline:
+
+**Stage 1 — Design System:** Create a locked 5-color palette, 3 visual motifs, typography style, and mood BEFORE writing any slide prompts.
+
+**Stage 2 — Rich Slide Prompts:** Each image prompt is 4-8 sentences with:
+- Background treatment using exact hex codes (e.g., `"#0D1117"` not `"dark"`)
+- All on-screen text with exact placement and styling
+- Adaptive complexity (diagrams for educational, stat heroes for data, timelines for history)
+- Visual continuity via recurring motifs and consistent design language
+
+Each slide also gets a structured `on_screen_text` dict with keys like `headline`, `subtitle`, `bullet_points`, `stat`, `callout`, `diagram_labels`.
+
+### Text-Heavy Mode
+
+Simpler than presentation — use when you want quick text-on-image without the full two-stage pipeline:
 1. Create a 5-color design system (background, primary, secondary, accent, text hex codes)
 2. Reference every hex by value in prompts (e.g., `"#E94560"` not `"primary"`)
 3. Describe exact text content and placement in each image prompt
 4. Include `on_screen_text` field in slides.json with headline/subtitle/body
 5. Maintain visual continuity with consistent colors across all slides
+
+### Dark-Tech Mode
+
+The trending YouTube aesthetic (Ali Abdaal, MKBHD, Fireship style):
+1. Near-black background (`#0A0A0A` to `#1A1A2E`)
+2. One or two neon accent colors (cyan, lime green, electric blue, magenta)
+3. Clean sans-serif typography with wide letter-spacing
+4. Subtle glow effects, gradients, and grid/circuit patterns
+5. Minimal elements — lots of negative space
+6. Text IS baked into images (headlines, stats, callouts)
+
+### Infographic Mode
+
+Data-driven visual approach:
+1. Clean background (dark or light depending on topic mood)
+2. Charts, graphs, and data visualizations as the main visual elements
+3. Large stat numbers displayed prominently
+4. Comparison layouts (vs., before/after, ranked lists)
+5. Timelines for chronological content
+6. Text IS baked into images (labels, values, axes)
+
+### Whiteboard Mode
+
+Classic explainer style:
+1. Clean white or off-white background
+2. Hand-drawn marker-style lines and shapes
+3. Diagrams with arrows showing flow/process
+4. Handwritten-style annotations and labels
+5. Simple color palette (black lines + 2-3 marker colors)
+6. Text IS baked into images (labels, annotations)
+
+### Comic Mode
+
+For storytelling and drama:
+1. Bold black ink outlines on vivid colors
+2. Dramatic angles, exaggerated expressions
+3. Halftone dot shading and speed lines
+4. Panel-style composition (single panel per slide)
+5. NO speech bubbles (narration handles the dialogue)
+6. High contrast, saturated colors
+
+### Stock Mode
+
+Professional and clean:
+1. High-quality photography composition
+2. Natural lighting, shallow depth of field
+3. Clean subject isolation
+4. Neutral color grading (warm or cool depending on topic)
+5. NO text in image — visuals only
+6. Business-appropriate imagery
 
 ---
 

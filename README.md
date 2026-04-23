@@ -176,13 +176,24 @@ Style: text-heavy
 
 ## Image Styles
 
-| Style | What it looks like | Text in image? |
-|-------|-------------------|----------------|
-| `documentary` | Photorealistic cinematic photography | No |
-| `text-heavy` | Bold graphics with text baked into images | Yes |
-| `3d-render` | Stylized 3D scenes with volumetric lighting | No |
-| `sketch` | Hand-drawn illustration style | No |
-| `anime` | Anime/manga art style | No |
+### Text + Visual (text baked into images)
+| Style | What it looks like | Best for |
+|-------|-------------------|----------|
+| `presentation` | **Structured slides with headlines, bullets, stats, diagrams** | Educational, how-to, listicles — **RECOMMENDED** |
+| `text-heavy` | Bold flat graphics with simple text overlay | Quick text-on-image videos |
+| `dark-tech` | Dark background with neon accents, clean typography | Tech, AI, productivity |
+| `infographic` | Charts, statistics, comparisons, timelines | Finance, science, data-driven |
+| `whiteboard` | Hand-drawn marker-style on white background | Explainers, how-things-work |
+
+### Visual Only (narration carries the content)
+| Style | What it looks like | Best for |
+|-------|-------------------|----------|
+| `documentary` | Photorealistic cinematic photography | News, finance, history |
+| `3d-render` | Stylized 3D scenes with volumetric lighting | Tech, sci-fi, gaming |
+| `sketch` | Hand-drawn pencil/ink illustration | Storytelling, biographies |
+| `anime` | Anime/manga art style | Entertainment, pop culture |
+| `comic` | Comic book panels with bold outlines | Drama, "what if" scenarios |
+| `stock` | Clean professional stock photography | Business, career, self-improvement |
 
 ## Available Voices
 
