@@ -29,7 +29,7 @@
 
 ## 🎬 Demo
 Check out a sample video generated with this pipeline:
-[📺 Watch Sample Video on Google Drive](https://drive.google.com/your-link-here)
+[📺 Watch Sample Video on Google Drive](https://drive.google.com/file/d/1spWTY0UrOPTYDHevKPh1zwIpph7OVlQb/view?usp=drive_link)
 
 ## 🛠️ Tech Stack
 | Component | Technology |
