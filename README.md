@@ -27,6 +27,10 @@
 - 🎙️ **High-Fidelity Voiceover**: Professional TTS with custom-cloned financial voices.
 - 🎬 **Automated Montage**: Seamless assembly of clips, transitions, and background music.
 
+## 🎬 Demo
+Check out a sample video generated with this pipeline:
+[📺 Watch Sample Video on Google Drive](https://drive.google.com/your-link-here)
+
 ## 🛠️ Tech Stack
 | Component | Technology |
 | :--- | :--- |
