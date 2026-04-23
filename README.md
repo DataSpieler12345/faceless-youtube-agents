@@ -61,6 +61,12 @@ python pipeline.py --run-id "inflation-2026" --run-all
 ```
 
 ---
+## 👤 Author
+**DataSpieler12345** - *Main developer and project lead*
+
+## 🤝 Credits
+This project was inspired by and built upon frameworks developed by [yashaiguy-dev](https://github.com/yashaiguy-dev). Special thanks for the architectural insights.
+
 <p align="center">
-  <i>Developed for the next generation of financial educators.</i>
+  <i>Developed with ❤️ for the next generation of automated content creators.</i>
 </p>
