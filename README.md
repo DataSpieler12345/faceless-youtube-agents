@@ -27,6 +27,34 @@
 - 🎙️ **High-Fidelity Voiceover**: Professional TTS with custom-cloned financial voices.
 - 🎬 **Automated Montage**: Seamless assembly of clips, transitions, and background music.
 
+## 🧠 What does this do?
+**YT Faceless Factory** is an automated video production engine. It transforms raw ideas or existing channel styles into fully-rendered, high-retention YouTube videos. The pipeline handles:
+- **Analysis**: Extracts the "Viral DNA" from successful channels.
+- **Creation**: Writes scripts, generates photorealistic images, and creates professional voiceovers.
+- **Assembly**: Combines all assets with transitions and background music into a final 1080p MP4.
+
+### 📽️ Content Type: General-Purpose Framework
+While the current configuration is optimized for **financial documentaries** (high-retention, news-style hooks), this is a **general-purpose framework**. It can be used to create:
+- 📈 Financial & Business explainers
+- 🧪 Science & Technology documentaries
+- 📚 Educational tutorials
+- 🎭 Storytelling & "What if" scenarios
+- 🎮 Gaming & Pop culture updates
+
+## 🤖 Agent Information
+This project is designed to be **AI-Agent Ready**. It includes a comprehensive `AGENT_GUIDE.md` that allows AI assistants to:
+- **Operate the Pipeline**: Agents can run analysis, script generation, and assembly autonomously.
+- **Two Operational Modes**:
+  1. **Channel Clone Mode**: Follow a specific channel's rhythm and hook structure.
+  2. **Script Folder Mode**: Batch process a folder of markdown scripts into videos.
+- **Standardized state tracking**: Agents use `state/<run_id>.json` to monitor progress and handle retries.
+
+## 🌟 Why this is useful?
+- **Infinite Scalability**: Produce high-quality content 24/7 without a camera or microphone.
+- **Viral Consistency**: By cloning the "DNA" of successful channels, you ensure your content follows proven retention patterns.
+- **Cost Efficiency**: Automates the work of a scriptwriter, narrator, editor, and graphic designer.
+- **Creative Freedom**: Focus on strategy and topics while the agents handle the manual labor of production.
+
 ## 🎬 Demo
 Check out a sample video generated with this pipeline:
 [📺 Watch Sample Video on Google Drive](https://drive.google.com/file/d/1spWTY0UrOPTYDHevKPh1zwIpph7OVlQb/view?usp=sharing)
